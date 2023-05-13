@@ -22,7 +22,7 @@ def Train_init():
     f.close()
 
 def Train():
-
+    pass
 def Run():
     gz=float(60)
     size = (1902, 1080)
@@ -33,6 +33,6 @@ def Run():
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
 def main():
-
+    pass
 if __name__=='__main__':
     main()
