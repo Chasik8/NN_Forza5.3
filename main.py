@@ -27,7 +27,7 @@ def Run():
     k_model = 0
     try:
         ff = open('conf_model.txt', 'r')
-        k = int(ff.read())
+        k_model = int(ff.read())
         ff.close()
         ff = open('conf_model.txt', 'w')
         ff.write(str(k_model + 1))
