@@ -34,7 +34,7 @@ def run_inp():
         if keyboard.is_pressed('e'):
             f.write('e')
         elif keyboard.is_pressed('q'):
-            f.write('q-')
+            f.write('q')
         elif keyboard.is_pressed('-'):
             break
         else:

@@ -1,5 +1,7 @@
+python.exe -m pip install --upgrade pip
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
 pip install opencv-python
 pip install pyautogui
 pip install keyboard
 pip install auto-py-to-exe
+pip install pywin32
