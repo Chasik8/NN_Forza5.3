@@ -1,3 +1,5 @@
+import time
+
 import torch
 import numpy as np
 import pyautogui
@@ -5,7 +7,7 @@ import cv2
 from model import *
 
 
-def Train_init(dev):
+def Train_init():
     k = 0
     file_name = f"train\out{str(k)}.npz"
     data = np.load(file_name)
@@ -14,8 +16,9 @@ def Train_init(dev):
     # for img,out in data:
     #     x_train.append(img)
     #     y_train.append(out)
-    x_train = torch.from_numpy(x_train.astype(np.float32)).to(dev)
-    y_train = torch.from_numpy(y_train.astype(np.float32)).to(dev)
+    x_train = np.expand_dims(x_train, axis=1)
+    x_train = torch.from_numpy(x_train.astype(np.float32))
+    y_train = torch.from_numpy(y_train.astype(np.float32))
     return x_train, y_train
 
 
@@ -34,14 +37,23 @@ def Run():
         ff.close()
     except:
         ff = open('conf_model.txt', 'w')
-        ff.write(str(0))
+        ff.write(str(1))
         ff.close()
-    dev = 'cuda:0'
-    net = Net()
+    dev = torch.device("cuda:0")
+    net = Net1()
+    # PATH = "models\model2.pth"
+    # net.load_state_dict(torch.load(PATH))
+    # net.eval()
     net.to(dev)
-    x_train, y_train = Train_init(dev)
+    # net.cuda()
+    x_train, y_train = Train_init()
+    x_train = x_train.to(device=dev)
+    y_train = y_train.to(device=dev)
+    # x_train.cuda()
+    # y_train.cuda()
     criterion = nn.MSELoss(size_average=None, reduce=None, reduction='mean')
     optimizer = torch.optim.Adam(net.parameters())
+    epoch_tim = time.time()
     for epoch in range(net.num_epochs):
         # for i, (images, labels) in enumerate(train_loader):  # Загрузка партии изображений с индексом, данными,
         # классом
@@ -59,6 +71,9 @@ def Run():
             optimizer.step()
         print(epoch, loss.data)
     torch.save(net.state_dict(), fr"models\model{k_model}.pth")
+    print(time.time() - epoch_tim, (time.time() - epoch_tim) / net.num_epochs)
+
+
 def main():
     Run()
 

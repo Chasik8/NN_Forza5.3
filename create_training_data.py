@@ -1,3 +1,5 @@
+import time
+
 import keyboard
 import numpy
 
@@ -8,6 +10,8 @@ from grabscreen import *
 def run():
     h = True
     k = 0
+    time.sleep(3)
+    print('Run')
     try:
         ff = open('conf.txt', 'r')
         k = int(ff.read())
@@ -17,7 +21,7 @@ def run():
         ff.close()
     except:
         ff = open('conf.txt', 'w')
-        ff.write(str(0))
+        ff.write(str(1))
         ff.close()
     file_name = f"train\out{str(k)}"
     h = False
@@ -30,9 +34,9 @@ def run():
         # 800x600 windowed mode
         # screen = grab_screen(region=(0, 40, 800, 640))
         screen = grab_screen()
-        # screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
+        screen = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
         # resize to something a bit more acceptable for a CNN
-        # screen = cv2.resize(screen, (80, 60))
+        screen = cv2.resize(screen, (800, 600))
         keys = key_check()
         output = keys_to_output(keys)
         # output = keys
@@ -43,25 +47,25 @@ def run():
         if keyboard.is_pressed('-'):
             cv2.destroyAllWindows()
             h = True
-        if len(training_screen) % save_kol == 0 or h:
+        # if len(training_screen) % save_kol == 0 or h:
+        if h:
             # if h:
-            # print(len(training_data))
+            print(len(training_screen))
             # np.save(file_name, training_data)
             np.savez(file_name, a=training_screen, b=training_output)
             print(save_kol / (time.time() - tim))
             tim = time.time()
     # size = (1902, 1080)
     # fourcc = cv2.VideoWriter_fourcc(*"XVID")
-    # out = cv2.VideoWriter(f"out{str(k)}.avi", fourcc, size=(size))
+    # out = cv2.VideoWriter(f"out{str(k)}.avi", fourcc, siz--e=(size))
     # f = open(f'inp{str(k)}.txt', 'w')
     # while h:
-    #     # надо вставить окно [0,0,1920,1080]
     #     sc = grab_screen()
-    #     out.write(sc)-
+    #     out.write(sc)
     #     keys = key_check()
     #     f.write(str(keys))
     # f.close()
-
+    #
 
 if __name__ == '__main__':
     run()
